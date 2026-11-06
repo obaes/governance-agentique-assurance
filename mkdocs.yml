@@ -1,0 +1,54 @@
+site_name: "Gouvernance Agentique en Assurance"
+site_description: "Cadre stratégique, architectural et opérationnel du Control Plane d'Entreprise pour l'assurance"
+site_author: "Direction Générale & Équipe Architecture IA"
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Passer au mode clair
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Passer au mode sombre
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - "Vue d'Ensemble": index.md
+  - "1. Contexte & Enjeux": 01-contexte-et-enjeux.md
+  - "2. Les 6 Angles Morts": 02-angles-morts.md
+  - "3. Architecture du Control Plane": 03-architecture-control-plane.md
+  - "4. Passeport d'Agent (Spécification)": 04-passeport-agent.md
+  - "5. Matrice des Pouvoirs & HITL": 05-matrice-delegation.md
+  - "6. Stack Technologique & Sécurité": 06-stack-technologique.md
+  - "7. Feuille de Route & Sprint 0": 07-feuille-de-route.md
+  - "8. Prototypage : Skills vs MCP vs A2A": 08-guide-prototypage.md
+  - "9. Prototype MCP Opérationnel": 09-prototype-mcp-code.md

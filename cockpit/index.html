@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cockpit de Gouvernance Agentique - Assurance</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border-color: #1f2937;
+      --accent: #3b82f6;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen antialiased p-4 md:p-8 font-sans">
+  <div class="max-w-7xl mx-auto space-y-6">
+    
+    <!-- Header Exécutif -->
+    <header class="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-lg shadow-lg shadow-blue-500/20">
+            🛡️
+          </div>
+          <div>
+            <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+              Control Plane Agentique <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">Master Hub v1.0</span>
+            </h1>
+            <p class="text-xs md:text-sm text-slate-400">Gouvernance, Homologation ACPR/DDA & Surveillance de la Flotte d'Agents Métiers</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Key Status Badges -->
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-lg px-3 py-2 text-right">
+          <div class="text-[11px] uppercase tracking-wider text-slate-400 font-medium">Agents Homologués</div>
+          <div class="text-lg font-bold text-emerald-400 flex items-center justify-end gap-1.5">
+            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span> 14 Actifs
+          </div>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 rounded-lg px-3 py-2 text-right">
+          <div class="text-[11px] uppercase tracking-wider text-slate-400 font-medium">Taux d'Escalade Humaine</div>
+          <div class="text-lg font-bold text-amber-400">8.4% (HITL)</div>
+        </div>
+        <div class="bg-slate-900/80 border border-slate-800 rounded-lg px-3 py-2 text-right">
+          <div class="text-[11px] uppercase tracking-wider text-slate-400 font-medium">Blocages Conformité</div>
+          <div class="text-lg font-bold text-purple-400">142 ce mois</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex border-b border-slate-800 space-x-2 text-sm font-medium">
+      <button onclick="switchTab('registry')" id="tab-btn-registry" class="tab-btn pb-3 px-4 border-b-2 border-blue-500 text-blue-400 transition-colors">
+        📋 Flotte & Passeports Métiers
+      </button>
+      <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="tab-btn pb-3 px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">
+        ⚡ Simulateur de Passerelle & Guardrails
+      </button>
+      <button onclick="switchTab('matrix')" id="tab-btn-matrix" class="tab-btn pb-3 px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">
+        ⚖️ Matrice des Pouvoirs & Seuils
+      </button>
+      <button onclick="switchTab('finops')" id="tab-btn-finops" class="tab-btn pb-3 px-4 border-b-2 border-transparent text-slate-400 hover:text-slate-200 transition-colors">
+        📊 Observabilité & FinOps
+      </button>
+    </nav>
+
+    <!-- TAB 1: REGISTRE DE LA FLOTTE -->
+    <div id="tab-registry" class="tab-content space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold text-white">Registre Central des Agents Déclarés</h2>
+          <p class="text-xs text-slate-400">Tout agent opérant doit être immatriculé avec un Passeport YAML valide, un propriétaire et un niveau d'autonomie certifié.</p>
+        </div>
+        <div class="flex gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 border border-slate-700">
+            Filtre : Toutes Directions
+          </span>
+        </div>
+      </div>
+
+      <!-- Agent Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        
+        <!-- Card 1: Sinistres -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Dir. Gestion & Sinistres</span>
+                <h3 class="font-bold text-base text-white mt-1">ClaimAssist Auto L2</h3>
+                <p class="text-xs text-slate-400 font-mono mt-0.5">ID: AGT-SIN-2026-04</p>
+              </div>
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-400" title="Actif & Certifié"></span>
+            </div>
+            <p class="text-xs text-slate-300 mt-3 line-clamp-2">
+              Instruction des bris de glace et petits chocs. Accord d'indemnité direct jusqu'à 800 €.
+            </p>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Autonomie</span>
+                <span class="font-medium text-amber-300">L2 (Semi-Autonome)</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Plafond Financier</span>
+                <span class="font-mono text-white">800,00 € max</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Audit ACPR / Score</span>
+                <span class="font-semibold text-emerald-400">99.2% Gold Dataset</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-[11px] text-slate-500">Owner: M. Dubois (Resp. Sinistres)</span>
+            <button onclick="toggleAgentKillSwitch('ClaimAssist Auto L2', this)" class="text-xs px-2.5 py-1 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 transition">
+              Kill Switch
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: Réseau / Distribution -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">Dir. Réseau & Vente</span>
+                <h3 class="font-bold text-base text-white mt-1">CourtierCopilot Pro</h3>
+                <p class="text-xs text-slate-400 font-mono mt-0.5">ID: AGT-DIS-2026-09</p>
+              </div>
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-400" title="Actif"></span>
+            </div>
+            <p class="text-xs text-slate-300 mt-3 line-clamp-2">
+              Recherche documentaire dans les CGV/barèmes professionnels et pré-qualification de devis MRH/Flotte.
+            </p>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Autonomie</span>
+                <span class="font-medium text-blue-300">L1 (Copilote Assistif)</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Signature Devis</span>
+                <span class="font-mono text-rose-400">Interdite (Validation Agent requise)</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Conformité DDA</span>
+                <span class="font-semibold text-emerald-400">Validé POG (Conseil loyal)</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-[11px] text-slate-500">Owner: S. Laurent (Dir. Commerciale)</span>
+            <button onclick="toggleAgentKillSwitch('CourtierCopilot Pro', this)" class="text-xs px-2.5 py-1 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 transition">
+              Kill Switch
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3: Actuariat -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 hover:border-slate-700 transition flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-semibold px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">Dir. Actuariat & Data</span>
+                <h3 class="font-bold text-base text-white mt-1">ActuaDrift Sentinel</h3>
+                <p class="text-xs text-slate-400 font-mono mt-0.5">ID: AGT-ACT-2026-01</p>
+              </div>
+              <span class="h-2.5 w-2.5 rounded-full bg-emerald-400" title="Actif"></span>
+            </div>
+            <p class="text-xs text-slate-300 mt-3 line-clamp-2">
+              Surveillance continue de la rentabilité technique (S/P) et détection des anomalies de souscription.
+            </p>
+            <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-2 text-xs">
+              <div class="flex justify-between text-slate-400">
+                <span>Autonomie</span>
+                <span class="font-medium text-emerald-300">L3 (Surveillance Autonome)</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Action SI</span>
+                <span class="font-mono text-slate-300">Read-Only + Alerting DG</span>
+              </div>
+              <div class="flex justify-between text-slate-400">
+                <span>Solvabilité II</span>
+                <span class="font-semibold text-emerald-400">Certifié Modèle Interne</span>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-[11px] text-slate-500">Owner: C. Moreau (Chef Actuaire)</span>
+            <button onclick="toggleAgentKillSwitch('ActuaDrift Sentinel', this)" class="text-xs px-2.5 py-1 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 transition">
+              Kill Switch
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Passeport YAML Viewer -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-mono text-blue-400">📄 agent-passport.spec.yaml</span>
+            <span class="text-xs text-slate-500">Contrat d'accréditation obligatoire requis à chaque commit</span>
+          </div>
+          <span class="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono">Schéma v1.2</span>
+        </div>
+        <pre class="text-xs font-mono text-slate-300 overflow-x-auto mt-3 p-3 bg-slate-950 rounded-lg leading-relaxed">
+<span class="text-purple-400">apiVersion</span>: <span class="text-emerald-400">governance.insurance/v1alpha1</span>
+<span class="text-purple-400">kind</span>: <span class="text-emerald-400">InsuranceAgentRegistration</span>
+<span class="text-purple-400">metadata</span>:
+  <span class="text-blue-300">name</span>: <span class="text-emerald-300">claim-settlement-quickauto</span>
+  <span class="text-blue-300">department</span>: <span class="text-emerald-300">Gestion-Sinistres</span>
+  <span class="text-blue-300">owner</span>: <span class="text-emerald-300">martine.dubois@assurance.fr</span>
+<span class="text-purple-400">governance</span>:
+  <span class="text-blue-300">autonomy_level</span>: <span class="text-amber-300">L2</span> <span class="text-slate-500"># L1 (copilote), L2 (délégué plafonné), L3 (autonome sous strictes conditions)</span>
+  <span class="text-blue-300">legal_authority_limit_eur</span>: <span class="text-yellow-400">800.00</span>
+  <span class="text-blue-300">hitl_mandatory_triggers</span>:
+    - <span class="text-emerald-300">"amount_exceeds_threshold"</span>
+    - <span class="text-emerald-300">"guarantee_exclusion_suspected"</span>
+    - <span class="text-emerald-300">"fraud_score_gt_0.35"</span>
+  <span class="text-blue-300">data_classification</span>:
+    <span class="text-blue-300">pii_handling</span>: <span class="text-emerald-400">true</span>
+    <span class="text-blue-300">health_data</span>: <span class="text-rose-400">false</span> <span class="text-slate-500"># Strictement bloqué par le filtre amont</span>
+<span class="text-purple-400">guardrails</span>:
+  <span class="text-blue-300">dda_fair_treatment_check</span>: <span class="text-emerald-400">true</span>
+  <span class="text-blue-300">enterprise_truth_source</span>: <span class="text-emerald-300">"rag://clausier-auto-2026.internal"</span></pre>
+      </div>
+    </div>
+
+    <!-- TAB 2: SIMULATEUR DE PASSERELLE & GUARDRAILS -->
+    <div id="tab-simulator" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold text-white">Banc d'Essai : Testeur d'Interception en Temps Réel</h2>
+        <p class="text-xs text-slate-400 mt-1">
+          Testez le comportement de votre structure maître face aux requêtes des agents métiers ou des assurés. Observez l'action des filtres de sécurité, de conformité assurance et de délégation de pouvoir.
+        </p>
+
+        <!-- Presets -->
+        <div class="mt-4 flex flex-wrap gap-2 items-center">
+          <span class="text-xs text-slate-400 font-medium">Scénarios préconfigurés :</span>
+          <button onclick="loadScenario('normal')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+            1. Petit bris de glace (450 €)
+          </button>
+          <button onclick="loadScenario('seuil')" class="text-xs px-3 py-1.5 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">
+            2. Sinistre supérieur au seuil (2 400 €)
+          </button>
+          <button onclick="loadScenario('sante')" class="text-xs px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 transition">
+            3. Fuite Données de Santé (Non autorisé)
+          </button>
+          <button onclick="loadScenario('commercial')" class="text-xs px-3 py-1.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 transition">
+            4. Remise commerciale excessive (35%)
+          </button>
+        </div>
+
+        <!-- Simulation Form -->
+        <div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Agent Émetteur</label>
+              <select id="sim-agent" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500">
+                <option value="claim">ClaimAssist Auto L2 (Gestion Sinistres - Seuil 800 €)</option>
+                <option value="sales">CourtierCopilot Pro (Réseau Vente - Seuil Remise 5%)</option>
+                <option value="marketing">SatisfactionBot (Marketing - Interdiction engagement financier)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-slate-300 mb-1">Action ou Prompt de l'Agent</label>
+              <textarea id="sim-prompt" rows="5" class="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-200 font-mono focus:outline-none focus:border-blue-500" placeholder="Entrez la décision ou la proposition de l'agent..."></textarea>
+            </div>
+
+            <button onclick="runSimulation()" class="w-full py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs shadow-md transition flex items-center justify-center gap-2">
+              <span>🚀 Exécuter l'Intercepteur Maître</span>
+            </button>
+          </div>
+
+          <!-- Pipeline Visualizer -->
+          <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-3 flex items-center justify-between">
+                <span>Verdict du Control Plane</span>
+                <span id="pipeline-status" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 text-slate-400">En attente</span>
+              </div>
+
+              <!-- Steps List -->
+              <div class="space-y-2.5 text-xs font-mono">
+                <div id="step-iam" class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-400">
+                  <span>1. Vérification Passeport & IAM</span>
+                  <span class="status-indicator font-sans">-</span>
+                </div>
+                <div id="step-rgpd" class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-400">
+                  <span>2. Scanner RGPD & Données Santé</span>
+                  <span class="status-indicator font-sans">-</span>
+                </div>
+                <div id="step-policy" class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-400">
+                  <span>3. Garde-fous Assurance (DDA & OPA)</span>
+                  <span class="status-indicator font-sans">-</span>
+                </div>
+                <div id="step-hitl" class="p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-400">
+                  <span>4. Contrôle Seuil Délégation & HITL</span>
+                  <span class="status-indicator font-sans">-</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="decision-box" class="mt-4 p-3 rounded-lg bg-slate-900 border border-slate-800 text-xs">
+              <span class="text-slate-500 italic">Lancez une analyse pour visualiser la chaîne d'autorité...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: MATRICE DES POUVOIRS & SEUILS -->
+    <div id="tab-matrix" class="tab-content hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-lg font-semibold text-white">Matrice de Délégation de Pouvoir Numérique</h2>
+            <p class="text-xs text-slate-400">Règles d'escalade obligatoire imposées aux agents selon la direction et l'opération.</p>
+          </div>
+          <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-3 py-1 rounded-full font-medium">
+            Appliquée par Policy-as-Code (OPA)
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-mono text-[11px] border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-4">Direction</th>
+                <th class="py-3 px-4">Opération Métier</th>
+                <th class="py-3 px-4">Plein Pouvoir Autonome (L3)</th>
+                <th class="py-3 px-4">Validation A Posteriori (L2)</th>
+                <th class="py-3 px-4">Escalade Humaine Obligatoire (L1 / HITL)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/80">
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 font-semibold text-white">Sinistres Auto/MRH</td>
+                <td class="py-3 px-4">Règlement direct de facture réparateur</td>
+                <td class="py-3 px-4 text-emerald-400 font-mono">Montant &lt; 300 €</td>
+                <td class="py-3 px-4 text-amber-400 font-mono">300 € à 800 €</td>
+                <td class="py-3 px-4 text-rose-400 font-mono">&gt; 800 € ou suspicion fraude &gt; 0.35</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 font-semibold text-white">Sinistres Corporels</td>
+                <td class="py-3 px-4">Évaluation de préjudice & provision</td>
+                <td class="py-3 px-4 text-slate-500 italic">Interdit</td>
+                <td class="py-3 px-4 text-slate-500 italic">Interdit</td>
+                <td class="py-3 px-4 text-rose-400 font-bold">100% Validation Médecin / Inspecteur</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 font-semibold text-white">Distribution / Réseau</td>
+                <td class="py-3 px-4">Remise commerciale sur devis annuel</td>
+                <td class="py-3 px-4 text-emerald-400 font-mono">0% à 3%</td>
+                <td class="py-3 px-4 text-amber-400 font-mono">3.1% à 7%</td>
+                <td class="py-3 px-4 text-rose-400 font-mono">&gt; 7% ou dérogation clauses CGV</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 font-semibold text-white">Réclamations & Litiges</td>
+                <td class="py-3 px-4">Refus de garantie formel</td>
+                <td class="py-3 px-4 text-slate-500 italic">Interdit</td>
+                <td class="py-3 px-4 text-slate-500 italic">Interdit</td>
+                <td class="py-3 px-4 text-rose-400 font-bold">100% Examen Juridique / Conformité</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 font-semibold text-white">Actuariat & Risques</td>
+                <td class="py-3 px-4">Modification barème / Modèle de tarification</td>
+                <td class="py-3 px-4 text-slate-500 italic">Interdit</td>
+                <td class="py-3 px-4 text-slate-500 italic">Interdit</td>
+                <td class="py-3 px-4 text-rose-400 font-bold">Signature Chef Actuaire + Validation DG</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="py-3 px-4 font-semibold text-white">Relation Client</td>
+                <td class="py-3 px-4">Délivrance attestation d'assurance</td>
+                <td class="py-3 px-4 text-emerald-400 font-bold">100% Autonome (si contrat à jour)</td>
+                <td class="py-3 px-4 text-slate-500">-</td>
+                <td class="py-3 px-4 text-rose-400">Si contentieux impayé actif</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: FINOPS & OBSERVABILITÉ -->
+    <div id="tab-finops" class="tab-content hidden space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400">Consommation Mensuelle</div>
+          <div class="text-2xl font-bold text-white mt-1">48.2 M <span class="text-xs font-normal text-slate-400">tokens</span></div>
+          <div class="text-xs text-emerald-400 mt-1 font-mono">1 420 € HT (Routage optimisé)</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400">Économie vs Modèle Monolithique</div>
+          <div class="text-2xl font-bold text-emerald-400 mt-1">-42%</div>
+          <div class="text-xs text-slate-400 mt-1">Grâce aux petits modèles certifiés</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400">Requêtes Interceptées</div>
+          <div class="text-2xl font-bold text-amber-400 mt-1">3.1%</div>
+          <div class="text-xs text-slate-400 mt-1">Bloquées par garde-fous conformité</div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400">Disponibilité Passerelle DORA</div>
+          <div class="text-2xl font-bold text-blue-400 mt-1">99.98%</div>
+          <div class="text-xs text-slate-400 mt-1">Failover multi-providers actif</div>
+        </div>
+      </div>
+
+      <!-- Imputation des Coûts par Direction -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h3 class="font-semibold text-white text-sm mb-4">Ventilation Budgétaire par Direction (Refacturation Interne FinOps)</h3>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-300 font-medium">Gestion & Sinistres (5 agents)</span>
+              <span class="text-slate-400 font-mono">680 € (48%)</span>
+            </div>
+            <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden">
+              <div class="bg-blue-500 h-2.5 rounded-full" style="width: 48%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-300 font-medium">Distribution & Réseau (4 agents)</span>
+              <span class="text-slate-400 font-mono">410 € (29%)</span>
+            </div>
+            <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden">
+              <div class="bg-amber-500 h-2.5 rounded-full" style="width: 29%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-300 font-medium">Actuariat & Études (2 agents)</span>
+              <span class="text-slate-400 font-mono">220 € (15%)</span>
+            </div>
+            <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden">
+              <div class="bg-purple-500 h-2.5 rounded-full" style="width: 15%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1">
+              <span class="text-slate-300 font-medium">Marketing & Satisfaction (3 agents)</span>
+              <span class="text-slate-400 font-mono">110 € (8%)</span>
+            </div>
+            <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden">
+              <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 8%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Tab Switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-blue-500', 'text-blue-400');
+        btn.classList.add('border-transparent', 'text-slate-400');
+      });
+      document.getElementById('tab-' + tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-btn-' + tabId);
+      activeBtn.classList.add('border-blue-500', 'text-blue-400');
+      activeBtn.classList.remove('border-transparent', 'text-slate-400');
+    }
+
+    // Scenarios for Simulator
+    const scenarios = {
+      normal: {
+        agent: 'claim',
+        prompt: 'Règlement direct validé pour remplacement de pare-brise sans franchise. Montant total garage agréé : 450,00 € TTC. Pièce justificative facture #FA-8812 présente.'
+      },
+      seuil: {
+        agent: 'claim',
+        prompt: 'Validation indemnisation dégât des eaux après expertise. Montant d accord proposé : 2 400,00 € pour réfection plâtre et peinture salon.'
+      },
+      sante: {
+        agent: 'claim',
+        prompt: 'Rapport médical : L assuré présente un traumatisme cervical avec incapacité temporaire de 15 jours suite à la collision. Prise en charge des soins d ostéopathie demandée.'
+      },
+      commercial: {
+        agent: 'sales',
+        prompt: 'Proposition tarifaire spéciale client stratégique : Application d une remise exceptionnelle de 35% sur le contrat Flotte Auto 2026.'
+      }
+    };
+
+    function loadScenario(key) {
+      const sc = scenarios[key];
+      document.getElementById('sim-agent').value = sc.agent;
+      document.getElementById('sim-prompt').value = sc.prompt;
+    }
+
+    // Initialize with default
+    loadScenario('normal');
+
+    function runSimulation() {
+      const prompt = document.getElementById('sim-prompt').value;
+      const agent = document.getElementById('sim-agent').value;
+      
+      const s1 = document.getElementById('step-iam');
+      const s2 = document.getElementById('step-rgpd');
+      const s3 = document.getElementById('step-policy');
+      const s4 = document.getElementById('step-hitl');
+      const dBox = document.getElementById('decision-box');
+      const pStatus = document.getElementById('pipeline-status');
+
+      // Reset
+      [s1, s2, s3, s4].forEach(s => {
+        s.className = "p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-400";
+        s.querySelector('.status-indicator').innerText = "Vérification...";
+      });
+
+      // Simulation logic
+      setTimeout(() => {
+        // Step 1: IAM
+        s1.className = "p-2.5 rounded bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-emerald-300";
+        s1.querySelector('.status-indicator').innerText = "✓ Valide (Passeport actif)";
+
+        // Step 2: RGPD / Health
+        const hasHealth = prompt.toLowerCase().includes('médical') || prompt.toLowerCase().includes('traumatisme') || prompt.toLowerCase().includes('cervical');
+        if (hasHealth) {
+          s2.className = "p-2.5 rounded bg-rose-950/50 border border-rose-500/50 flex items-center justify-between text-rose-300";
+          s2.querySelector('.status-indicator').innerText = "✕ BLOCAGE : Données Santé Détectées";
+          
+          s3.className = "p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-600";
+          s3.querySelector('.status-indicator').innerText = "Non exécuté";
+          s4.className = "p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-600";
+          s4.querySelector('.status-indicator').innerText = "Non exécuté";
+
+          pStatus.className = "text-[11px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30";
+          pStatus.innerText = "REJET IMMÉDIAT";
+          dBox.className = "mt-4 p-3 rounded-lg bg-rose-950/40 border border-rose-500/30 text-xs text-rose-200";
+          dBox.innerHTML = "<strong>Alerte RGPD / Secret Médical :</strong> Cet agent n'est pas accrédité pour manipuler des données de santé. La requête a été censurée et un avertissement a été envoyé au DPO.";
+          return;
+        } else {
+          s2.className = "p-2.5 rounded bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-emerald-300";
+          s2.querySelector('.status-indicator').innerText = "✓ Conforme (PII masqué)";
+        }
+
+        // Step 3: Policy / DDA
+        const isExcessiveDiscount = prompt.includes('35%');
+        if (isExcessiveDiscount) {
+          s3.className = "p-2.5 rounded bg-rose-950/50 border border-rose-500/50 flex items-center justify-between text-rose-300";
+          s3.querySelector('.status-indicator').innerText = "✕ VIOLATION RÈGLE COMMERCIALE";
+          
+          s4.className = "p-2.5 rounded bg-slate-900 border border-slate-800 flex items-center justify-between text-slate-600";
+          s4.querySelector('.status-indicator').innerText = "Non exécuté";
+
+          pStatus.className = "text-[11px] px-2 py-0.5 rounded bg-rose-500/20 text-rose-400 font-bold border border-rose-500/30";
+          pStatus.innerText = "BLOQUÉ PAR POLICY";
+          dBox.className = "mt-4 p-3 rounded-lg bg-rose-950/40 border border-rose-500/30 text-xs text-rose-200";
+          dBox.innerHTML = "<strong>Violation Plafond Commercial :</strong> La règle d'entreprise interdit toute remise > 15% sans dérogation écrite de la Direction Générale. Proposition rejetée.";
+          return;
+        } else {
+          s3.className = "p-2.5 rounded bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-emerald-300";
+          s3.querySelector('.status-indicator').innerText = "✓ Conforme DDA & Règles OPA";
+        }
+
+        // Step 4: HITL Threshold Check
+        const isHighAmount = prompt.includes('2 400') || prompt.includes('2400');
+        if (isHighAmount) {
+          s4.className = "p-2.5 rounded bg-amber-950/50 border border-amber-500/40 flex items-center justify-between text-amber-300";
+          s4.querySelector('.status-indicator').innerText = "⚠ SEUIL DÉPASSÉ (Seuil: 800 €)";
+
+          pStatus.className = "text-[11px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 font-bold border border-amber-500/30";
+          pStatus.innerText = "ESCALADE HITL";
+          dBox.className = "mt-4 p-3 rounded-lg bg-amber-950/40 border border-amber-500/30 text-xs text-amber-200";
+          dBox.innerHTML = "<strong>Escalade Humaine Déclenchée :</strong> Montant de 2 400,00 € excédant le pouvoir autonome (800 €). Le dossier a été routé dans la corbeille du gestionnaire référent pour validation en un clic.";
+        } else {
+          s4.className = "p-2.5 rounded bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-emerald-300";
+          s4.querySelector('.status-indicator').innerText = "✓ Dans les limites du pouvoir";
+
+          pStatus.className = "text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30";
+          pStatus.innerText = "AUTORISÉ DIRECTEMENT";
+          dBox.className = "mt-4 p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/30 text-xs text-emerald-200";
+          dBox.innerHTML = "<strong>Exécution Validée :</strong> Montant de 450,00 € sous le seuil L2. L'ordre de virement vers le réparateur a été transmis au SI avec journalisation immuable de l'audit trail.";
+        }
+
+      }, 350);
+    }
+
+    function toggleAgentKillSwitch(agentName, btn) {
+      if (btn.innerText === "Kill Switch") {
+        btn.innerText = "Rétablir";
+        btn.className = "text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+        alert(`[KILL SWITCH ACTIVÉ] L'agent '${agentName}' a été révoqué immédiatement au niveau de la passerelle. Toutes ses requêtes sont désormais bloquées.`);
+      } else {
+        btn.innerText = "Kill Switch";
+        btn.className = "text-xs px-2.5 py-1 rounded bg-rose-500/10 text-rose-400 hover:bg-rose-500/20 border border-rose-500/30 transition";
+        alert(`[RÉTABLISSEMENT] L'agent '${agentName}' a été réactivé.`);
+      }
+    }
+  </script>
+</body>
+</html>
